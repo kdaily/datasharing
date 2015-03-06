@@ -1,0 +1,68 @@
+---
+title: "Sharing Data"
+author: "Kenneth Daily"
+date: "03/06/2015"
+output: ioslides_presentation
+---
+
+## Credits
+
+The materials for this are cribbed from:
+
+[jtleek/datasharing](https://github.com/jtleek/datasharing)
+
+Most, if not all, credits go to Dr. Leek for this material.
+
+I'm just the messenger.
+
+## Target Audience
+
+* Scientific collaborators who need statisticians to analyze data for them
+* Students or postdocs in scientific disciplines looking for consulting advice
+* Junior statistics students whose job it is to collate/clean data sets
+
+## Goals
+
+I want to provide some instruction on the best way to share data to avoid:
+
+- the most common pitfalls
+- sources of delay 
+
+in the transition from data collection to data analysis.
+
+## Caveats
+
+The assertions stated here are designed for sharing, not necessarily your own use.
+
+Though, if you follow these, you should find that your own analysis will become easier as well.
+
+## What you should deliver to the statistician
+
+1. The raw data.
+2. A [tidy data set](http://vita.had.co.nz/papers/tidy-data.pdf) 
+3. A code book describing each variable and its values in the tidy data set.  
+4. An explicit and exact recipe you used to go from 1 -> 2,3 
+
+## The raw data
+
+* The strange binary file your measurement machine spits out
+* The unformated Excel file with 10 worksheets the company you contracted with sent you
+* The complicated JSON data you got from scraping the Twitter API
+* The hand-entered numbers you collected looking through a microscope
+
+## How do you know if it's raw?
+
+You know the raw data is in the right format if you: 
+
+1. Ran no software on the data
+2. Did not manipulate any of the numbers in the data
+3. You did not remove any data from the data set
+4. You did not summarize the data in any way
+
+<div class="notes">
+If you did any manipulation of the data at all it is not the raw form of the data. Reporting manipulated data
+as raw data is a very common way to slow down the analysis process, since the analyst will often have to do a
+forensic study of your data to figure out why the raw data looks weird. 
+</div>
+
+
