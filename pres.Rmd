@@ -17,9 +17,9 @@ I'm just the messenger.
 
 ## Target Audience
 
-* Scientific collaborators who need statisticians to analyze data for them
+* Scientific collaborators who need someone to analyze data for them
 * Students or postdocs in scientific disciplines looking for consulting advice
-* Junior statistics students whose job it is to collate/clean data sets
+* Junior students whose job it is to collate/clean data sets
 
 ## Goals
 
@@ -45,9 +45,9 @@ But having the data in this form can facilitate this kind of post-processing as 
 3. Reduces errors
 4. Aids reproducibility
 
-## What you should deliver to the statistician
+## What you should deliver to the analyst
 
-1. The raw data.
+1. The raw data
 2. A summarized, [tidy data set](http://vita.had.co.nz/papers/tidy-data.pdf) 
 3. A code book describing each variable and its values in the summarized data set
 4. An explicit and exact recipe you used to go from 1 -> 2,3
@@ -84,23 +84,24 @@ For almost any data set, the measurements you calculate will need to be describe
 <div class="notes">
 The code book contains this information. At minimum it should contain:
 
+How you did the data collection/study design, potential sources of bias, experimental design, etc.
+
 the unit of measurement for each clinical/demographic variable is (age in years, treatment by name/dose, level of diagnosis and how heterogeneous). 
 
 Any filtering/censoring/subsetting
-
-How you did the data collection/study design, potential sources of bias, experimental design, etc.
 </div>
 
 ## How to code variables
 
-When you put variables into a spreadsheet there are several main categories you will run into:
+When you put variables into a dataset there are several main categories you will run into:
 
 1. Continuous
 2. Ordinal
 3. Categorical
 4. Dates
-5. Misssing 
-6. Censored
+5. Entities
+6. Misssing
+7. Censored
 
 ## How to code variables - continuous
 
@@ -109,6 +110,8 @@ Continuous variables are anything measured on a quantitative scale that could be
 - weight measured in kg
 - gene expression level
 - concentration of a drug in mol
+
+Put the units in the code book, not in the data! A single column should be represented in the same units.
 
 ## How to code variables - ordinal
 
@@ -125,7 +128,7 @@ Too often will the levels change and need to be re-coded; this can be done by th
 
 ## How to code variables - categorical
 
-Categorical data: unordered, multiple categories
+Categorical data: unordered, multiple levels
 
 - male or female
 - treated (maybe multiple levels), control
