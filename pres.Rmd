@@ -25,29 +25,37 @@ I'm just the messenger.
 
 I want to provide some instruction on the best way to share data to avoid:
 
-- the most common pitfalls
+- common pitfalls
 - sources of delay 
 
 in the transition from data collection to data analysis.
 
 ## Caveats
 
-The assertions stated here are designed for sharing, not necessarily your own use.
+The assertions stated here are designed for sharing, manipulation, computational analysis, and data vizualization.
 
-Though, if you follow these, you should find that your own analysis will become easier as well.
+They may not necessarily be the way a data set would be presented in a table for publication or your lab meeting, for example.
+
+But having the data in this form can facilitate this kind of post-processing as well!
+
+## Why?
+
+1. Facilitiates collaboration
+2. Allows data visualization
+3. Reduces errors
+4. Aids reproducibility
 
 ## What you should deliver to the statistician
 
 1. The raw data.
-2. A [tidy data set](http://vita.had.co.nz/papers/tidy-data.pdf) 
-3. A code book describing each variable and its values in the tidy data set.  
-4. An explicit and exact recipe you used to go from 1 -> 2,3 
+2. A summarized, [tidy data set](http://vita.had.co.nz/papers/tidy-data.pdf) 
+3. A code book describing each variable and its values in the summarized data set
+4. An explicit and exact recipe you used to go from 1 -> 2,3
 
 ## The raw data
 
-* The strange binary file your measurement machine spits out
+* The strange binary file from the qPCR machine
 * The unformated Excel file with 10 worksheets the company you contracted with sent you
-* The complicated JSON data you got from scraping the Twitter API
 * The hand-entered numbers you collected looking through a microscope
 
 ## How do you know if it's raw?
@@ -60,9 +68,200 @@ You know the raw data is in the right format if you:
 4. You did not summarize the data in any way
 
 <div class="notes">
-If you did any manipulation of the data at all it is not the raw form of the data. Reporting manipulated data
-as raw data is a very common way to slow down the analysis process, since the analyst will often have to do a
-forensic study of your data to figure out why the raw data looks weird. 
+If you did any manipulation of the data at all it is not the raw form of the data.
+
+Reporting manipulated data as raw data is a very common way to slow down the analysis process, since the analyst will often have to do a forensic study of your data to figure out why the raw data looks weird. 
 </div>
 
+## The code book
 
+For almost any data set, the measurements you calculate will need to be described in more detail than you will sneak into the spreadsheet.
+
+1. Information about the variables (including units!) in the data set not contained in the tidy data 
+2. Information about the summary choices you made
+3. Information about the experimental study design you used
+
+<div class="notes">
+The code book contains this information. At minimum it should contain:
+
+the unit of measurement for each clinical/demographic variable is (age in years, treatment by name/dose, level of diagnosis and how heterogeneous). 
+
+Any filtering/censoring/subsetting
+
+How you did the data collection/study design, potential sources of bias, experimental design, etc.
+</div>
+
+## How to code variables
+
+When you put variables into a spreadsheet there are several main categories you will run into:
+
+1. Continuous
+2. Ordinal
+3. Categorical
+4. Dates
+5. Misssing 
+6. Censored
+
+## How to code variables - continuous
+
+Continuous variables are anything measured on a quantitative scale that could be any fractional number
+
+- weight measured in kg
+- gene expression level
+- concentration of a drug in mol
+
+## How to code variables - ordinal
+
+Ordinal data: fixed, small (< 100) number of ordered levels
+
+- survey responses, e.g., `poor`, `fair`, `good`
+- `pass` or `fail` quality control
+
+It's best not to convert continuous variables to ordinal ones in your data, but rather describe it in the code book. 
+
+<div class="notes">
+Too often will the levels change and need to be re-coded; this can be done by the analyst.
+</div>
+
+## How to code variables - categorical
+
+Categorical data: unordered, multiple categories
+
+- male or female
+- treated (maybe multiple levels), control
+- sample type (e.g., different cell lines)
+
+## How to code variables - ordinal and categorical
+
+In general, try to avoid coding categorical or ordinal variables as numbers.
+
+When you enter the value for sex in the tidy data, it should be `male` or `female`.
+
+The ordinal values in the data set should be `poor`, `fair`, and `good`, not `1, 2, 3`.
+
+<div class="notes">
+This will avoid potential mixups about which direction effects go and will help identify coding errors. 
+</div>
+
+## How to code variables - dates
+
+Be consistent in the formatting of dates, and be aware of what spreadsheet software can do to them.
+
+- `03-11-2015` is not `11-03-2015`
+- `3/11/2015` and `3/11/15` can also be difficult
+
+Also be careful about text columns that can be interpreted as dates (e.g., `Oct4` ends up as `10/4/1900`).
+
+## How to code variables - missing
+
+Missing data are data that are missing and you don't know the mechanism.
+
+You should code missing values in a standardized way (preferably `NA`).
+
+Explain this in the code book.
+
+## How to code variables - censored
+
+Censored data: you know the missingness mechanism on some level. 
+
+- a measurement being below a detection limit 
+- equipment or experimental failure
+- a patient being lost to follow-up
+
+They should also be coded as `NA` when you don't have the data.
+
+## How to code variables - censored
+
+You should also add a new column to your data called `VariableNameCensored` which should have values of `TRUE` if censored and `FALSE` if not. 
+
+Furthermore, explain these in the code book.
+
+Please, do not impute/make up/throw away missing observations!
+
+<div class="notes">
+It is absolutely critical to report to the analyst if there is a reason you know about that some of the data are missing.
+</div>
+
+## How to code variables - entity names
+
+Whenever possible, use standardized entity names (genes, proteins, reagents, etc.)
+
+When in doubt, check with the trusted naming consortium on how to refer:
+
+* Human - [HGNC](http://www.genenames.org/)
+* Mouse - [MGI](http://informatics.jax.org/mgihome/nomen/)
+* Drosophila - [FlyBase](http://flybase.org/static_pages/docs/nomenclature/nomenclature3.html)
+
+Example: POU domain, class 5, transcription factor 1 (`POU5F1`) is....
+
+## How to code variables - entity names
+
+Preferably, a unique identifier is the best, if you know you are using a specific gene or protein version:
+
+- Entrez ID (`POU5F1` is [`5460`](http://www.ncbi.nlm.nih.gov/gene/5460))
+- Ensembl Transcript ID (transcript 1: [`ENST00000259915`](http://uswest.ensembl.org/Homo_sapiens/Transcript/Summary?db=core;g=ENSG00000204531;r=6:31164337-31180731;t=ENST00000259915))
+- SWISS-PROT ID (`POU5F1` is [`Q01860`](http://www.uniprot.org/uniprot/Q01860))
+- Sigma Aldrich monoclonal antibody (`POU5F1` is [P0082](http://www.sigmaaldrich.com/catalog/product/sigma/p0082?lang=en&region=US))
+
+## The instruction list/script
+
+You may have heard this before, but [reproducibility is kind of a big deal in computational science](http://www.sciencemag.org/content/334/6060/1226).
+
+That means, when you submit your paper, everyone should be able to exactly replicate the analyses from raw data all the way to final results (including figures displaying data).
+
+<div class="notes">
+If you are trying to be efficient, you will likely perform some summarization/data analysis steps before the data can be considered tidy. 
+</div>
+
+## The instruction list/script
+
+The ideal thing for you to do when performing summarization is to create a computer script that takes the raw data as input and produces the data you are sharing as output.
+
+Even if you don't know how to code, you should provide the analyst `psuedocode`:
+
+1. Step 1 - take the raw file, run version 3.1.2 of summarize software with parameters a=1, b=2, c=3
+2. Step 2 - run the software separately for each sample
+3. Step 3 - take column three of outputfile.out for each sample and that is the corresponding row in the output data set
+
+<div class="notes">
+In many cases, the person who collected the data has incentive to make it tidy for a statistician to speed the process of collaboration. 
+</div>
+
+## What you should expect from the analyst
+
+You should then expect from the statistician:
+
+1. An analysis script that performs each of the analyses (not just instructions)
+2. The exact computer code they used to run the analysis
+3. All output files/figures they generated
+
+<div class="notes">
+When you turn over a properly tidied data set it dramatically decreases the workload on the statistician. So hopefully they will get back to you much sooner. But most careful statisticians will check your recipe, ask questions about steps you performed, and try to confirm that they can obtain the same tidy data that you did with, at minimum, spot checks.
+</div>
+
+## Tidy data
+
+What is tidy data?
+
+1. Each `variable you measure` should be in a `single column`
+2. Each different `observation of that variable` should be in a `single row`
+3. There should be `one table` for each "kind" of variable
+4. If you have multiple tables, they should include a column in the table that allows them to be linked
+
+## Tidy data - an example
+
+## Tidy data
+
+When in doubt, reach out to an analyst!
+
+## What you should expect from the analyst
+
+This is the information you will use in the supplement to establish reproducibility and precision of your results. 
+
+Each of the steps in the analysis should be clearly explained and you should ask questions when you don't understand what the analyst did. 
+
+## What you should expect from the analyst
+
+It is the responsibility of both the statistician and the scientist to understand the statistical analysis. 
+
+You may not be able to perform the exact analyses without the statistician's code, but you should be able to explain why the statistician performed each step to a labmate/your principal investigator.
