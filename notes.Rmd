@@ -1,0 +1,11 @@
+---
+title: "Data sharing notes"
+author: "Kenneth Daily"
+date: "02/18/2015"
+output: html_document
+---
+
+## Resources
+
+* [How to Transition from Excel to R](https://districtdatalabs.silvrback.com/intro-to-r-for-microsoft-excel-users)
+* [Introducing tidyr](http://blog.rstudio.org/2014/07/22/introducing-tidyr/)
