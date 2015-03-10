@@ -11,9 +11,7 @@ The materials for this are cribbed from:
 
 [jtleek/datasharing](https://github.com/jtleek/datasharing)
 
-Most, if not all, credits go to Dr. Leek for this material.
-
-I'm just the messenger.
+Most credits go to Dr. Leek for this material.
 
 ## Target Audience
 
@@ -37,6 +35,12 @@ The assertions stated here are designed for sharing, manipulation, computational
 They may not necessarily be the way a data set would be presented in a table for publication or your lab meeting, for example.
 
 But having the data in this form can facilitate this kind of post-processing as well!
+
+## It's hard!
+
+Data cleaning is hard work! You're not going to become an expert overnight.
+
+Make friends with a data scientist, we like making your data better.
 
 ## Why?
 
@@ -159,7 +163,9 @@ Also be careful about text columns that can be interpreted as dates (e.g., `Oct4
 
 Missing data are data that are missing and you don't know the mechanism.
 
-You should code missing values in a standardized way (preferably `NA`).
+Code missing values in a consistent, standardized way (preferably `NA`).
+
+`NA` != `N/A` != `""` != `" "`
 
 Explain this in the code book.
 
@@ -242,21 +248,6 @@ You should then expect from the statistician:
 When you turn over a properly tidied data set it dramatically decreases the workload on the statistician. So hopefully they will get back to you much sooner. But most careful statisticians will check your recipe, ask questions about steps you performed, and try to confirm that they can obtain the same tidy data that you did with, at minimum, spot checks.
 </div>
 
-## Tidy data
-
-What is tidy data?
-
-1. Each `variable you measure` should be in a `single column`
-2. Each different `observation of that variable` should be in a `single row`
-3. There should be `one table` for each "kind" of variable
-4. If you have multiple tables, they should include a column in the table that allows them to be linked
-
-## Tidy data - an example
-
-## Tidy data
-
-When in doubt, reach out to an analyst!
-
 ## What you should expect from the analyst
 
 This is the information you will use in the supplement to establish reproducibility and precision of your results. 
@@ -268,3 +259,30 @@ Each of the steps in the analysis should be clearly explained and you should ask
 It is the responsibility of both the statistician and the scientist to understand the statistical analysis. 
 
 You may not be able to perform the exact analyses without the statistician's code, but you should be able to explain why the statistician performed each step to a labmate/your principal investigator.
+
+## How to do this
+
+One way: [Synapse](http://www.synapse.org)
+
+You can store and share data, write codebooks and other annotations, and track the steps you used to go from raw data to summarized files (provenance).
+
+## Examples
+
+All of the examples used here today will be available in Synapse!
+
+[Today's examples](https://www.synapse.org/#!Synapse:syn3270309)
+
+How? Come to the advanced session!
+
+## Tidy data
+
+What is tidy data?
+
+1. Each `variable you measure` should be in a `single column`
+2. Each different `observation of that variable` should be in a `single row`
+3. There should be `one table` for each "kind" of variable
+4. If you have multiple tables, they should include a column in the table that allows them to be linked
+
+## Tidy data
+
+When in doubt, reach out to an analyst; we're here to help!
