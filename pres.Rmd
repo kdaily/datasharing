@@ -1,7 +1,7 @@
 ---
 title: "Sharing Data"
 author: "Kenneth Daily"
-date: "03/06/2015"
+date: "03/11/2015"
 output: ioslides_presentation
 ---
 
@@ -279,6 +279,12 @@ It is the responsibility of both the statistician and the scientist to understan
 
 You may not be able to perform the exact analyses without the statistician's code, but you should be able to explain why the statistician performed each step to a labmate/your principal investigator.
 
+## What you should expect from the analyst
+
+If you're not getting this, ask!
+
+If you're still not getting it, break up with them.
+
 ## How to do this
 
 One way: [Synapse](http://www.synapse.org)
@@ -375,3 +381,10 @@ p <- p + facet_grid(~ gene)
 p <- p + theme_bw()
 p
 ```
+
+## References - other places to learn stuff
+* [How to Transition from Excel to R](https://districtdatalabs.silvrback.com/intro-to-r-for-microsoft-excel-users)
+* [Swirl Stats](http://www.swirlstats.com)
+* [Data Analysis for Genomics](http://harvardx.harvard.edu/ph5251x-ph5258x-data-analysis-genomics)
+* [Coursera Data Science](https://www.coursera.org/specialization/jhudatascience/1?utm_medium=courseDescripTop)
+* [Introducing TidyR](http://blog.rstudio.org/2014/07/22/introducing-tidyr/)
