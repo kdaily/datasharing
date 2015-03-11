@@ -5,6 +5,27 @@ date: "03/06/2015"
 output: ioslides_presentation
 ---
 
+```{r libs, echo=FALSE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+library(reshape)
+library(tidyr)
+library(knitr)
+
+options(xtable.type="html")
+
+knitr::opts_chunk$set(
+  echo=FALSE,
+  warning=FALSE,
+  message=FALSE,
+  error = FALSE,
+  tidy = FALSE,
+  cache=TRUE,
+  fig.width=8,
+  fig.height=4)
+
+```
+
 ## Credits
 
 The materials for this are cribbed from:
@@ -181,9 +202,7 @@ They should also be coded as `NA` when you don't have the data.
 
 ## How to code variables - censored
 
-You should also add a new column to your data called `VariableNameCensored` which should have values of `TRUE` if censored and `FALSE` if not. 
-
-Furthermore, explain these in the code book.
+Add a new column to your data called `VariableNameCensored` which should have values of `TRUE` if censored and `FALSE` if not. 
 
 Please, do not impute/make up/throw away missing observations!
 
@@ -266,10 +285,6 @@ One way: [Synapse](http://www.synapse.org)
 
 You can store and share data, write codebooks and other annotations, and track the steps you used to go from raw data to summarized files (provenance).
 
-## Examples
-
-All of the examples used here today will be available in Synapse!
-
 [Today's examples](https://www.synapse.org/#!Synapse:syn3270309)
 
 How? Come to the advanced session!
@@ -286,3 +301,77 @@ What is tidy data?
 ## Tidy data
 
 When in doubt, reach out to an analyst; we're here to help!
+
+## Example - 1
+```{r readdata, echo=TRUE}
+## Read in my data from a file
+d <- read.csv("data/databetter3.csv")
+
+## Subset my data so I only keep uncensored expression values
+dataClean <- subset(d, !(as.logical(expressionCensored)))
+```
+
+## Example - summary table
+```{r summarizedata, echo=TRUE}
+myTable <- dataClean %>% 
+  ## First, group my data by the gene name and drug amount
+  group_by(gene, amount) %>% 
+  
+  # Compute the mean expression within these groupings
+  summarize(meanexpr=mean(expression, na.rm=TRUE)) %>%
+  
+  # Convert the data to a table that we can see
+  cast(gene ~ amount, value="meanexpr") %>%
+  
+  # Make it pretty for my slides
+  kable(caption="Mean expression by gene at different drug amounts")
+```
+
+## Example - summary table
+
+Mean expression by gene at different drug amounts
+
+```{r summarizedatatbl, echo=FALSE, results='asis'}
+myTable
+```
+
+
+## Example - plot 1 code
+
+Visualize data per gene and cell line across different drug amounts
+
+```{r plot1code, echo=TRUE}
+p  <- ggplot(dataClean, aes(x=factor(amount), y=expression))
+p <- p + geom_boxplot()
+p <- p + facet_grid(gene ~ CellLine)
+p <- p + theme_bw()
+```
+
+## Example - plot 1
+```{r plot1, echo=FALSE}
+p
+```
+
+## Example - plot 2
+
+Visualize data per gene and drug amount across different cell lines
+
+```{r plot2, echo=FALSE}
+p  <- ggplot(dataClean, aes(x=factor(gene), y=expression))
+p <- p + geom_boxplot()
+p <- p + facet_grid(gene ~ amount)
+p <- p + theme_bw()
+p
+```
+
+## Example - plot 3
+
+Visualize empirical distribution of expression per gene across different drug amounts
+
+```{r plot3}
+p  <- ggplot(dataClean, aes(x=expression))
+p <- p + geom_density(aes(group=amount,color=factor(amount)))
+p <- p + facet_grid(~ gene)
+p <- p + theme_bw()
+p
+```
